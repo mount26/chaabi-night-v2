@@ -44,8 +44,8 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractLicenses": true,
-              "buildOptimizer": true
+              "extractLicenses": true
+                
             },
             "development": {
               "optimization": false,
@@ -69,8 +69,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": "d47cc8b8-3697-4c74-ad34-7d05d364c532"
   }
 }
