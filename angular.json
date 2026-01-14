@@ -25,6 +25,7 @@
               "src/styles.css"
             ],
             "scripts": []
+            
           },
           "configurations": {
             "production": {
@@ -54,6 +55,7 @@
             }
           },
           "defaultConfiguration": "production"
+          "inlineFonts": false,
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -69,5 +71,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "67015099-7194-4520-8dba-610dce613bff"
   }
 }
