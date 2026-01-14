@@ -1,0 +1,15 @@
+<div class="admin-login-container">
+  <h2>Connexion&nbsp;Admin</h2>
+  <form (ngSubmit)="login()" #loginForm="ngForm">
+    <label>
+      Nom d’utilisateur
+      <input type="text" [(ngModel)]="username" name="username" required />
+    </label>
+    <label>
+      Mot de passe
+      <input type="password" [(ngModel)]="password" name="password" required />
+    </label>
+    <button type="submit" class="primary-button" [disabled]="loginForm.invalid">Se connecter</button>
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+  </form>
+</div>

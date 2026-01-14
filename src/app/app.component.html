@@ -1,0 +1,27 @@
+<nav class="navbar">
+  <div class="brand">
+    <div class="logo">
+    <img src="assets/img/Logo ADE Doré.png" alt="Logo ADE Universiapolis">
+  </div>
+  </div>
+  <ul class="nav-links">
+    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Accueil</a></li>
+    <li><a routerLink="/reservation" routerLinkActive="active">Réservation</a></li>
+    <li><a routerLink="/contact" routerLinkActive="active">Contactez-nous</a></li>
+  </ul>
+  <div class="event-tag">Chaabi Night V2</div>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Global footer displayed on every page -->
+<footer class="footer">
+  <div class="footer-content">
+    <div>Instagram : <a href="https://www.instagram.com/Ade.universiapolis" target="_blank" rel="noopener">Ade.universiapolis</a></div>
+    <div>Téléphone : 06 61 12 34 56</div>
+    <div>Université Internationale d’Agadir, Agadir, Maroc</div>
+  </div>
+  <div class="footer-copyright">Copyright ANAM 2026</div>
+</footer>

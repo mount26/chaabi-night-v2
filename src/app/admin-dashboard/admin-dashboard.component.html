@@ -1,0 +1,110 @@
+<div class="admin-dashboard">
+  <h2>Tableau de bord&nbsp;Admin</h2>
+  <!-- Seating plan for admin, with ability to toggle booked seats -->
+  <section class="schema-section">
+    <h3>Plan des tables (Admin)</h3>
+    <!-- Legend explaining seat colours for the admin plan -->
+    <div class="admin-legend">
+      <span class="legend-item free"></span> Libre
+      <span class="legend-item booked"></span> Réservé
+      <span class="legend-item admin"></span> Bloqué
+    </div>
+    <div class="chapiteau">
+      <!-- Stage placed at the top spanning all columns -->
+      <div class="stage">SCÈNE</div>
+      <div class="row" *ngFor="let row of tableRows">
+        <div class="table" *ngFor="let table of row">
+          <div class="table-top">{{ table.id }}</div>
+          <button
+            class="seat"
+            *ngFor="let seat of table.seats; let i = index"
+            [ngStyle]="getSeatStyle(i)"
+            [class.booked]="seat.booked"
+            [class.admin-blocked]="seat.adminBlocked"
+            (click)="toggleSeatAdmin(seat)"
+          >
+            <span class="seat-number">{{ i + 1 }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Reservations section -->
+  <section class="reservations-section">
+    <h3>Réservations enregistrées</h3>
+    <button class="primary-button" (click)="downloadCSV()">Télécharger CSV</button>
+    <table class="reservations-table" *ngIf="reservations.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Téléphone</th>
+          <th>Pack</th>
+          <th>Table(s)</th>
+          <th>Sièges</th>
+          <th>Prix total</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of reservations">
+          <td>{{ r.id }}</td>
+          <td>{{ r.name }}</td>
+          <td>{{ r.phone }}</td>
+          <td>{{ r.pack }}</td>
+          <td>{{ getTableNumbers(r) }}</td>
+          <td>{{ r.seats.length }}</td>
+          <td>{{ getTotalPrice(r) }} DH</td>
+          <td>{{ r.timestamp | date:'medium' }}</td>
+          <td>
+            <button class="secondary-button" (click)="editReservation(r)">Modifier</button>
+            <button class="secondary-button" (click)="deleteReservation(r.id)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="reservations.length === 0">Aucune réservation pour l'instant.</p>
+
+    <!-- Add reservation form (admin) -->
+    <h4 *ngIf="editingId === null">Ajouter une réservation</h4>
+    <h4 *ngIf="editingId !== null">Modifier la réservation #{{ editingId }}</h4>
+    <!-- When editingId is null the form is for adding; when not null it is editing -->
+    <form (ngSubmit)="editingId === null ? addReservationAdmin() : updateReservationAdmin()" #addForm="ngForm" class="admin-add-form">
+      <label>
+        Nom complet
+        <input type="text" [(ngModel)]="newName" name="newName" required />
+      </label>
+      <label>
+        Numéro de téléphone
+        <input type="tel" [(ngModel)]="newPhone" name="newPhone" required />
+      </label>
+      <label>
+        Pack
+        <select [(ngModel)]="selectedPackAdmin" name="packAdmin" required (change)="onPackChange()">
+          <option value="" disabled selected>Sélectionner un pack</option>
+          <option value="Pack table complète">Pack table complète</option>
+          <option value="Pack duo">Pack duo</option>
+          <option value="Ticket seul">Ticket seul</option>
+        </select>
+      </label>
+      <label>
+        Table
+        <select [(ngModel)]="selectedTableAdmin" name="tableAdmin" required (change)="onTableChange()" [disabled]="!selectedPackAdmin">
+          <option *ngFor="let t of getAvailableTables()" [value]="t">{{ t }}</option>
+        </select>
+      </label>
+      <label *ngIf="selectedPackAdmin && !selectedPackAdmin.toLowerCase().includes('table')">
+        Siège
+        <select [(ngModel)]="selectedSeatAdmin" name="seatAdmin" required [disabled]="selectedTableAdmin === null">
+          <option *ngFor="let s of getAvailableSeats()" [value]="s">{{ s }}</option>
+        </select>
+      </label>
+      <button class="primary-button" type="submit" [disabled]="addForm.invalid || !selectedPackAdmin || selectedTableAdmin === null || (!selectedPackAdmin.toLowerCase().includes('table') && selectedSeatAdmin === null)">
+        {{ editingId === null ? 'Ajouter' : 'Enregistrer' }}
+      </button>
+      <button *ngIf="editingId !== null" class="secondary-button" type="button" (click)="cancelEdit()">Annuler</button>
+    </form>
+  </section>
+</div>

@@ -1,0 +1,10 @@
+.active {
+  text-decoration: underline;
+}
+
+.brand .logo img{
+  height: 55px;       /* change comme tu veux */
+  width: auto;
+  object-fit: contain;
+  display: block;
+}

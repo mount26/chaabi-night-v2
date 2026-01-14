@@ -1,0 +1,117 @@
+<h2>Réservation</h2>
+
+<!--
+  The reservation page is split into two modes. By default the user sees an
+  overview of the seating plan with decorative artwork and ticket packs. A
+  legend explains the meaning of the seat colours. When the overview image
+  is clicked the component toggles into an interactive mode where tables
+  and individual seats can be selected. The stage is rendered at the top
+  of the grid to orient the customer.
+-->
+
+<!-- Overview mode -->
+<div *ngIf="!showGrid" class="reservation-overview">
+  <div class="overview-container">
+    <!-- Left: main illustration of the chapiteau. Clicking it enters grid mode -->
+    <!--
+      The overview image displays an artistic rendering of the chapiteau.  A click on
+      the image switches the view to the interactive seating plan.  We use a
+      photograph supplied by the client as the background (stored in the
+      assets folder).  Feel free to replace it with another image if desired.
+    -->
+    <div class="overview-image" (click)="openGrid()">
+      <img src="assets/Scène.png" alt="Aperçu du plan des tables" />
+      <!-- Legend overlay -->
+      <div class="legend">
+        <span class="legend-item libre"></span><span class="legend-label">Libre</span>
+        <span class="legend-item selectionne"></span><span class="legend-label">Sélectionné</span>
+        <span class="legend-item reserve"></span><span class="legend-label">Réservé</span>
+      </div>
+      <!-- Pack highlight overlay -->
+      <div class="primary-pack">
+        <h3>Pack Table Complet</h3>
+        <p class="price">1700 DH</p>
+        <p class="descr">Table complète pour 10 personnes<br />
+          Vos places privilégiées près de la scène</p>
+        <button class="primary-button" (click)="openGrid()">Réserver la table</button>
+      </div>
+    </div>
+  </div>
+  <!-- Additional ticket packs -->
+  <div class="packs-row">
+    <div class="pack-card" *ngFor="let p of packages">
+      <h3>{{ p.name }}</h3>
+      <p class="price-big">{{ p.price }} DH</p>
+      <p class="descr">{{ p.description }}</p>
+      <button class="primary-button"
+              (click)="openGrid()">
+        <!-- Custom label depending on pack type -->
+        {{ p.name === 'Pack duo' ? 'Réserver pour 2' : (p.name === 'Ticket seul' ? 'Réserver ma place' : 'Réserver la table') }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Plan button: allow the user to open the interactive seating plan explicitly -->
+  <div class="plan-button-container">
+    <button class="primary-button" (click)="openGrid()">Choisir votre emplacement sur le plan</button>
+  </div>
+
+  <!-- Pack reservation form removed. All pack buttons now open the plan directly. -->
+</div>
+
+<!-- Interactive seating mode -->
+<div *ngIf="showGrid" class="interactive-mode">
+  <h3>Choisissez votre table et vos sièges</h3>
+  <div class="chapiteau">
+    <!-- Stage placed at the top spanning all columns -->
+    <div class="stage">SCÈNE</div>
+    <!-- Lay out tables in rows based on tableRows -->
+    <div class="row" *ngFor="let row of tableRows">
+      <div class="table" *ngFor="let table of row">
+        <!-- Clicking the table label toggles all seats on that table -->
+        <div class="table-top" (click)="toggleTableSeats(table)">{{ table.id }}</div>
+        <button
+          class="seat"
+          *ngFor="let seat of table.seats; let i = index"
+          [ngStyle]="getSeatStyle(i)"
+          [class.booked]="seat.booked"
+          [class.admin-blocked]="seat.adminBlocked"
+          [class.selected]="isSelected(seat)"
+          (click)="toggleSeat(seat)"
+        >
+          <span class="seat-number">{{ i + 1 }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+   <!-- Cart for seat selection -->
+   <div class="cart">
+     <h4>Panier</h4>
+     <p *ngIf="selectedSeats.length === 0">Aucun siège sélectionné.</p>
+     <ul *ngIf="selectedSeats.length > 0">
+       <li *ngFor="let seat of selectedSeats">
+         Table&nbsp;{{ Math.floor((seat.id - 1) / 10) + 1 }}, Siège&nbsp;{{ ((seat.id - 1) % 10) + 1 }}
+       </li>
+     </ul>
+     <form class="cart-form" (ngSubmit)="finalizeSeatReservation()" #seatForm="ngForm">
+       <label>
+         Nom complet
+         <input type="text" [(ngModel)]="formName" name="seatName" required />
+       </label>
+       <label>
+         Numéro de téléphone
+         <input type="tel" [(ngModel)]="formPhone" name="seatPhone" required />
+       </label>
+       <div class="pack-info">Pack : {{ formPackName || (selectedSeats.length === 1 ? 'Ticket seul' : (selectedSeats.length === 2 ? 'Pack duo' : (selectedSeats.length === 10 ? 'Pack table complète' : 'Sélection personnalisée'))) }}</div>
+       <button type="submit" class="primary-button"
+               [disabled]="selectedSeats.length === 0 || seatForm.invalid">Finaliser la réservation</button>
+     </form>
+     <!-- Full screen overlay for success message -->
+     <div *ngIf="reservationComplete" class="success-overlay">
+       <div class="success-message">
+         Réservation complète ! Veuillez régler votre facture auprès de nos stands ou de nos membres ADE au&nbsp;delà de&nbsp;12&nbsp;H. Téléphone : 06 61 12 34 56
+       </div>
+     </div>
+   </div>
+</div>

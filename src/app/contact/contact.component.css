@@ -1,0 +1,17 @@
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: #b9e800;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

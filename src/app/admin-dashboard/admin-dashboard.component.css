@@ -1,0 +1,212 @@
+.admin-dashboard {
+  padding: 2rem;
+  color: #f5f5f5;
+}
+.admin-dashboard h2 {
+  text-align: center;
+  color: #b9e800;
+  margin-top: 0;
+}
+.schema-section h3,
+.reservations-section h3 {
+  margin-top: 0;
+  color: #b9e800;
+}
+.reservations-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+.reservations-table th,
+.reservations-table td {
+  border: 1px solid rgba(185, 232, 0, 0.3);
+  padding: 0.4rem 0.6rem;
+}
+.reservations-table th {
+  background-color: rgba(185, 232, 0, 0.15);
+  color: #b9e800;
+  font-weight: 600;
+}
+.reservations-table td {
+  text-align: center;
+}
+
+/* Seating plan styles (replicated from reservation component) */
+.chapiteau {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+.row {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  width: 100%;
+}
+.table {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(185, 232, 0, 0.2);
+  border-radius: 50%;
+  overflow: visible;
+}
+.table-top {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  transform: translate(-50%, -50%);
+  background-color: #181818;
+  border: 2px solid #b9e800;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b9e800;
+  font-weight: bold;
+}
+.seat {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #29522e;
+  border: 1px solid #b9e800;
+  cursor: pointer;
+  color: #f5f5f5;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.seat:hover {
+  background-color: #3e7630;
+}
+.seat.booked {
+  background-color: #b71c1c;
+  border-color: #b71c1c;
+  cursor: not-allowed;
+}
+.seat.booked::after {
+  content: '✖';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: #fff;
+}
+
+/* Seats blocked by admin */
+.seat.admin-blocked {
+  background-color: #37517e;
+  border-color: #37517e;
+  cursor: not-allowed;
+}
+.seat.admin-blocked::after {
+  content: '🛇';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: #fff;
+}
+
+/* Seat number overlay */
+.seat .seat-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Stage styling for admin plan, similar to reservation view */
+.stage {
+  grid-column: span 5;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 60px;
+  background-color: #181818;
+  border: 2px solid #b9e800;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b9e800;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Legend styles for the admin seating plan */
+.admin-legend {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.8rem;
+}
+.admin-legend .legend-item {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid #b9e800;
+}
+.admin-legend .legend-item.free {
+  background-color: #29522e;
+}
+.admin-legend .legend-item.booked {
+  background-color: #b71c1c;
+}
+/* Admin blocked legend colour */
+.admin-legend .legend-item.admin {
+  background-color: #37517e;
+}
+
+/* Styles for the admin add reservation form */
+.admin-add-form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 400px;
+}
+.admin-add-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  color: #d8d07f;
+}
+.admin-add-form input {
+  margin-top: 0.3rem;
+  padding: 0.3rem;
+  border-radius: 4px;
+  border: 1px solid rgba(185, 232, 0, 0.3);
+  background-color: #1a1d18;
+  color: #f5f5f5;
+}
+.admin-add-form button {
+  align-self: flex-start;
+  padding: 0.4rem 0.8rem;
+  background-color: rgba(185, 232, 0, 0.15);
+  border: 1px solid #b9e800;
+  border-radius: 4px;
+  color: #b9e800;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+.admin-add-form button:hover {
+  background-color: #b9e800;
+  color: #0e0e0e;
+}

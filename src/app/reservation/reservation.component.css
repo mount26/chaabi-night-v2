@@ -1,0 +1,437 @@
+/* Reservation page styles */
+
+/* Old .packages/.package styles removed since they are no longer used. */
+
+/* Container for the seating plan. Use flex column to allow rows with
+   different numbers of tables. Each row is rendered using the .row
+   class below. */
+/* Increase spacing between table rows and enlarge margin. */
+.chapiteau {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Each row of tables inside the plan */
+.row {
+  display: flex;
+  gap: 10rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.table {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(185, 232, 0, 0.2);
+  border-radius: 50%; /* Make the table circular */
+  overflow: visible;
+}
+
+.table-top {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  transform: translate(-50%, -50%);
+  background-color: #181818;
+  border: 2px solid #b9e800;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b9e800;
+  font-weight: bold;
+}
+
+/* Seat styles for the interactive plan */
+.seat {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #29522e; /* base luminous green */
+  border: 1px solid #b9e800;
+  cursor: pointer;
+  color: #f5f5f5;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.seat:hover {
+  background-color: #3e7630;
+}
+/* Selected seats become orange */
+.seat.selected {
+  background-color: #e58c23;
+  border-color: #e58c23;
+  color: #0e0e0e;
+}
+/* Booked seats appear red with a cross icon */
+.seat.booked {
+  background-color: #b71c1c;
+  border-color: #b71c1c;
+  cursor: not-allowed;
+}
+.seat.booked::after {
+  content: '✖';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: #fff;
+}
+
+/* Seat number overlay inside each seat button */
+.seat .seat-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Seats blocked by the administrator.  Display a distinct colour and
+   symbol so that admins and users can identify them separately from
+   booked seats. */
+.seat.admin-blocked {
+  background-color: #37517e; /* blue-grey hue to differentiate */
+  border-color: #37517e;
+  cursor: not-allowed;
+}
+.seat.admin-blocked::after {
+  content: '🛇';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: #fff;
+}
+
+/* ------------------------------------------------------------------- */
+/*
+  Custom styles for the redesigned reservation page. The overview shows a
+  decorative illustration with a legend and a highlighted package offer.
+  Additional ticket packs are presented below the illustration. When the
+  interactive mode is activated, the stage and tables are shown in a grid.
+*/
+
+/* Container for the overview mode */
+.reservation-overview {
+  margin-top: 1rem;
+}
+
+/* Wraps the image and overlays */
+.overview-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+/* Clickable preview image */
+.overview-image {
+  position: relative;
+  flex: 2;
+  cursor: pointer;
+}
+.overview-image img {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(185, 232, 0, 0.2);
+  display: block;
+}
+
+/* Legend overlay at top right of the preview */
+.legend {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+}
+.legend-item {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.25rem;
+  border: 1px solid #b9e800;
+}
+.legend-item.libre {
+  /* Free seats: luminous green to match the seating indicator */
+  background-color: #29522e;
+}
+.legend-item.selectionne {
+  /* Selected seats: bright orange */
+  background-color: #e58c23;
+}
+.legend-item.reserve {
+  /* Reserved seats: red */
+  background-color: #b71c1c;
+}
+.legend-label {
+  margin-right: 0.5rem;
+}
+
+/* Primary pack overlay on the image */
+.primary-pack {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(185, 232, 0, 0.3);
+  width: 220px;
+}
+.primary-pack h3 {
+  margin: 0 0 0.25rem;
+  color: #b9e800;
+}
+.primary-pack .price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 0 0.5rem;
+  color: #f5f5f5;
+}
+.primary-pack .descr {
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+  color: #cfcfcf;
+  line-height: 1.3;
+}
+.primary-button {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background-color: rgba(185, 232, 0, 0.15);
+  border: 1px solid #b9e800;
+  border-radius: 4px;
+  color: #b9e800;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+.primary-button:hover {
+  background-color: #b9e800;
+  color: #0e0e0e;
+}
+
+/* Row of pack cards below the overview image */
+.packs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.pack-card {
+  flex: 1 1 calc(33% - 1rem);
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(185, 232, 0, 0.3);
+  color: #f5f5f5;
+  min-width: 200px;
+}
+.pack-card h3 {
+  margin-top: 0;
+  color: #b9e800;
+}
+.pack-card .price-big {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  color: #b9e800;
+}
+.pack-card .descr {
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  color: #cfcfcf;
+}
+.pack-card .primary-button {
+  width: 100%;
+}
+
+/* Stage element at the top of the interactive grid */
+.stage {
+  grid-column: span 5;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 60px;
+  background-color: #181818;
+  border: 2px solid #b9e800;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b9e800;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Heading in interactive mode */
+.interactive-mode h3 {
+  margin-top: 1rem;
+  text-align: center;
+  color: #b9e800;
+}
+
+/* Overlay for pack reservation form */
+.pack-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.pack-form {
+  background-color: #0a0f0c;
+  border: 1px solid rgba(185, 232, 0, 0.3);
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 320px;
+  box-shadow: 0 0 12px rgba(185, 232, 0, 0.3);
+}
+.pack-form h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #b9e800;
+}
+.pack-form p {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #d8d07f;
+}
+.pack-form label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+}
+.pack-form input {
+  width: 100%;
+  padding: 0.3rem;
+  margin-top: 0.2rem;
+  border-radius: 4px;
+  border: 1px solid rgba(185, 232, 0, 0.3);
+  background-color: #1a1d18;
+  color: #f5f5f5;
+}
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.secondary-button {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background-color: rgba(185, 232, 0, 0.1);
+  border: 1px solid #b9e800;
+  border-radius: 4px;
+  color: #b9e800;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+.secondary-button:hover {
+  background-color: rgba(185, 232, 0, 0.2);
+  color: #b9e800;
+}
+
+/* Cart styles */
+.cart {
+  margin-top: 2rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(185, 232, 0, 0.3);
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 380px;
+  color: #f5f5f5;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cart h4 {
+  margin-top: 0;
+  color: #b9e800;
+}
+.cart ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+}
+.cart li {
+  margin-bottom: 0.25rem;
+}
+.cart-form label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+}
+.cart-form input {
+  width: 100%;
+  padding: 0.3rem;
+  margin-top: 0.2rem;
+  border-radius: 4px;
+  border: 1px solid rgba(185, 232, 0, 0.3);
+  background-color: #1a1d18;
+  color: #f5f5f5;
+}
+.cart-form .pack-info {
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: #d8d07f;
+}
+/* Overlay container that covers the entire viewport when a reservation is complete */
+.success-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 400;
+}
+
+/* Inner success message box */
+.success-message {
+  padding: 1.25rem 1.5rem;
+  background-color: rgba(185, 232, 0, 0.15);
+  border: 1px solid #b9e800;
+  border-radius: 8px;
+  color: #b9e800;
+  font-size: 1.1rem;
+  max-width: 480px;
+  text-align: center;
+}
+
+/* Plan button container to center the call-to-action below the pack cards */
+.plan-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
